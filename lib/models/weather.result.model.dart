@@ -30,7 +30,7 @@ class Location {
   double? lat;
   double? lon;
   String? tzId;
-  int? localtimeEpoch;
+  String? localtimeEpoch;
   String? localtime;
 
   Location(
@@ -50,7 +50,7 @@ class Location {
     lat = json['lat'];
     lon = json['lon'];
     tzId = json['tz_id'];
-    localtimeEpoch = json['localtime_epoch'];
+    localtimeEpoch = json['localtime_epoch'].toString();
     localtime = json['localtime'];
   }
 
@@ -69,9 +69,9 @@ class Location {
 }
 
 class Current {
-  int? lastUpdatedEpoch;
+  String? lastUpdatedEpoch;
   String? lastUpdated;
-  int? tempC;
+  double? tempC;
   double? tempF;
   int? isDay;
   Condition? condition;
@@ -79,19 +79,19 @@ class Current {
   double? windKph;
   int? windDegree;
   String? windDir;
-  int? pressureMb;
+  double? pressureMb;
   double? pressureIn;
-  int? precipMm;
-  int? precipIn;
+  double? precipMm;
+  double? precipIn;
   int? humidity;
   int? cloud;
   double? feelslikeC;
   double? feelslikeF;
-  int? visKm;
-  int? visMiles;
-  int? uv;
+  double? visKm;
+  double? visMiles;
+  double? uv;
   double? gustMph;
-  int? gustKph;
+  double? gustKph;
 
   Current(
       {this.lastUpdatedEpoch,
@@ -119,7 +119,7 @@ class Current {
       this.gustKph});
 
   Current.fromJson(Map<String, dynamic> json) {
-    lastUpdatedEpoch = json['last_updated_epoch'];
+    lastUpdatedEpoch = json['last_updated_epoch'].toString();
     lastUpdated = json['last_updated'];
     tempC = json['temp_c'];
     tempF = json['temp_f'];

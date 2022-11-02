@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/screens/home.screen.dart';
+import 'package:weather/utils/location.helper.dart';
 import 'package:weather/widgets/app_large_text.dart';
 
 class HelpScreen extends StatefulWidget {
@@ -14,10 +16,19 @@ class HelpScreen extends StatefulWidget {
 
 class _HelpScreenState extends State<HelpScreen> {
   late Timer timer;
+  Position? position;
 
-  route() {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+  route() async {
+    position = await getGeoLocationPosition().whenComplete(() {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(
+            position: position!,
+          ),
+        ),
+      );
+    });
   }
 
   @override
@@ -52,13 +63,17 @@ class _HelpScreenState extends State<HelpScreen> {
             right: 30,
             child: TextButton(
               onPressed: () async {
+                Position position = await getGeoLocationPosition();
+
                 final SharedPreferences pref =
                     await SharedPreferences.getInstance();
                 pref.setBool("isSkip", true).then((_) {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const HomeScreen(),
+                      builder: (_) => HomeScreen(
+                        position: position,
+                      ),
                     ),
                   );
                 });
