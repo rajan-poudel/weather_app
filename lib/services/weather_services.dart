@@ -9,7 +9,7 @@ class WeatherService {
   static getCurrentWeather({required int lat, required int log}) async {
     try {
       const currentweather = "/current.json?key=$apiKey& q=48.8567,2.350";
-      final finalUrl = baseurl + currentweather;
+      const finalUrl = baseurl + currentweather;
       final response = await http.get(Uri.parse(finalUrl));
       if (response.statusCode == 200) {
         return response.body;
