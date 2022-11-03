@@ -3,7 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/widgets/search_field.dart';
+import 'package:weather/widgets/search.field.dart';
+import 'package:weather/widgets/temperature.widget.dart';
 
 import '../controllers/weather.controller.dart';
 
@@ -18,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     log(widget.position.latitude.toString());
     final searchPvr = Provider.of<WeatherProvider>(context, listen: false);
     context.read<WeatherProvider>().getCurrentWeather(
@@ -26,6 +28,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Weather Home Screen"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              // Navigator.push(context, )
+            },
+            icon: const Icon(Icons.help),
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -35,8 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           TextButton(onPressed: () {}, child: const Text("Save")),
           Consumer<WeatherProvider>(builder: (_, weather, __) {
-            return Text(
-                weather.weatherResultModel.current?.tempC.toString() ?? "1");
+            return TemperatureWidget(size: size, weatherProvider: weather);
           }),
         ],
       ),

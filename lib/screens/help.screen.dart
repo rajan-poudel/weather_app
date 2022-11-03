@@ -5,7 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/screens/home.screen.dart';
 import 'package:weather/utils/location.helper.dart';
-import 'package:weather/widgets/app_large_text.dart';
+import 'package:weather/widgets/app.large.text.dart';
 
 class HelpScreen extends StatefulWidget {
   const HelpScreen({Key? key}) : super(key: key);
