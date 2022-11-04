@@ -29,4 +29,18 @@ class WeatherProvider with ChangeNotifier {
     _weatherResultModel = currentWeatherResult;
     notifyListeners();
   }
+
+  Future getLocationWeather({required String location}) async {
+    _isLoading = true;
+    WeatherResultModel currentWeatherResult = WeatherResultModel();
+    final responseBody =
+        await WeatherService.getRawLocationWeather(location: location);
+    currentWeatherResult = WeatherResultModel.fromJson(responseBody);
+
+    _isLoading = false;
+    notifyListeners();
+
+    _weatherResultModel = currentWeatherResult;
+    notifyListeners();
+  }
 }
