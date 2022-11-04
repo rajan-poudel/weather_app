@@ -13,7 +13,11 @@
    ```sh
    git clone https://github.com/rajan-poudel/weather_app.git
    ```
-4. Install all the packages by typing
+4. Navigate to **lib/config/.env.dart** and paste your API key to the apiKey variable
+   ```dart
+   const APIKEY = 'Paste Your API Key Here';
+   ```
+5. Install all the packages by typing
    ```sh
    flutter pub get
    ```
