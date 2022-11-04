@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:weather/models/weather.result.model.dart';
 import 'package:weather/services/weather_services.dart';
@@ -35,6 +37,7 @@ class WeatherProvider with ChangeNotifier {
     WeatherResultModel currentWeatherResult = WeatherResultModel();
     final responseBody =
         await WeatherService.getRawLocationWeather(location: location);
+    log(responseBody.toString());
     currentWeatherResult = WeatherResultModel.fromJson(responseBody);
 
     _isLoading = false;

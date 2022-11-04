@@ -1,0 +1,4 @@
+#Fri Nov 04 23:57:22 NPT 2022
+base.0=/Users/iamrjn/project/Flutter Task/weather_app/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

@@ -3,14 +3,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather/screens/help.screen.dart';
 import 'package:weather/widgets/search.field.dart';
 import 'package:weather/widgets/temperature.widget.dart';
 
 import '../controllers/weather.controller.dart';
 
 class HomeScreen extends StatefulWidget {
+  String? location;
   Position position;
-  HomeScreen({super.key, required this.position});
+  HomeScreen({super.key, required this.position, this.location});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -19,18 +22,21 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
 
-  static const String searchItem = '';
+  // static const String searchItem = '';
 
   searchHandling() {
-    // await Future.delayed(const Duration(seconds: 3));
     log(" SEARCH ${_searchController.text}");
-    if (_searchController.text.isEmpty) {
+    if (_searchController.text.isEmpty && widget.location == null) {
       context.read<WeatherProvider>().getCurrentWeather(
           lat: widget.position.latitude, log: widget.position.longitude);
-    } else {
+    } else if (widget.location == null || _searchController.text.isNotEmpty) {
       context
           .read<WeatherProvider>()
           .getLocationWeather(location: _searchController.text);
+    } else {
+      context
+          .read<WeatherProvider>()
+          .getLocationWeather(location: widget.location.toString());
     }
   }
 
@@ -49,10 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    log(widget.position.latitude.toString());
-    final searchPvr = Provider.of<WeatherProvider>(context, listen: false);
-    // context.read<WeatherProvider>().getCurrentWeather(
-    //     lat: widget.position.latitude, log: widget.position.longitude);
 
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              // Navigator.push(context, )
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const HelpScreen()));
             },
             icon: const Icon(Icons.help),
           )
@@ -73,12 +76,13 @@ class _HomeScreenState extends State<HomeScreen> {
             child: SearchField(_searchController),
           ),
           TextButton(
-              onPressed: () {
-                setState(() {
-                  searchHandling();
-                  _searchController.clear();
-                });
-                // log(searchItem);
+              onPressed: () async {
+                searchHandling();
+                SharedPreferences preferences =
+                    await SharedPreferences.getInstance();
+                preferences.setString("location", _searchController.text);
+
+                _searchController.clear();
               },
               child: const Text("Save")),
           Consumer<WeatherProvider>(builder: (_, weather, __) {

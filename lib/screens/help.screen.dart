@@ -33,7 +33,7 @@ class _HelpScreenState extends State<HelpScreen> {
 
   @override
   void initState() {
-    timer = Timer(const Duration(seconds: 6), route);
+    timer = Timer(const Duration(seconds: 5), route);
     super.initState();
   }
 
@@ -73,6 +73,7 @@ class _HelpScreenState extends State<HelpScreen> {
                     MaterialPageRoute(
                       builder: (_) => HomeScreen(
                         position: position,
+                        location: pref.getString("location"),
                       ),
                     ),
                   );
